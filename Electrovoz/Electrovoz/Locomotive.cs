@@ -1,49 +1,37 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Electrovoz
 {
-    class Electrovozzz
+    public class Locomotive : Train
     {
-        private float _startPosX;
-        private float _startPosY;
-        private int _pictureWidth;
-        private int _pictureHeight;
-        private readonly int carWidth = 95;
-        private readonly int carHeight = 68;
-        public int MaxSpeed { private set; get; } //скорость
-        // Вес электровоза
-        public float Weight { private set; get; }
-        // Основной цвет 
-        public Color MainColor { private set; get; }
-        // Дополнительный цвет
-        public Color DopColor { private set; get; }
-        // Признак наличия рогов
-        public bool FrontRoga { private set; get; }
-        // Признак наличия молнии
-        public bool FrontLightning { private set; get; }
+        // Ширина отрисовки локомотива
+        protected readonly int carWidth = 95;
+        // Высота отрисовки локомотива
+        protected readonly int carHeight = 68;
         // Конструктор
-        public Electrovozzz(int maxSpeed, float weight, Color mainColor, Color dopColor,
-       bool frontRoga, bool frontLightning)
+        public Locomotive(int maxSpeed, float weight, Color mainColor)
         {
             MaxSpeed = maxSpeed;
             Weight = weight;
             MainColor = mainColor;
-            DopColor = dopColor;
-            FrontRoga = frontRoga;
-            FrontLightning = frontLightning;
         }
-        // Установка позиции електровоза
-        public void SetPosition(int x, int y, int width, int height)
+        protected Locomotive(int maxSpeed, float weight, Color mainColor, int carWidth, int carHeight)
         {
-            _pictureWidth = width;
-            _pictureHeight = height;
-            _startPosX = x;
-            _startPosY = y;
+            MaxSpeed = maxSpeed;
+            Weight = weight;
+            MainColor = mainColor;
+            this.carWidth = carWidth;
+            this.carHeight = carHeight;
         }
-        // Изменение направления пермещения
-        public void MoveTransport(Direction direction)
+        public override void MoveTransport(Direction direction)
         {
             float step = MaxSpeed * 100 / Weight;
+            int leftPosX = 5;  // левая граница
             switch (direction)
             {
                 // вправо
@@ -55,7 +43,7 @@ namespace Electrovoz
                     break;
                 //влево
                 case Direction.Left:
-                    if (_startPosX - step > 0)
+                    if (_startPosX - step > leftPosX)
                     {
                         _startPosX -= step;
                     }
@@ -76,8 +64,7 @@ namespace Electrovoz
                     break;
             }
         }
-        // Отрисовка автомобиля
-        public void DrawTransport(Graphics g)
+        public override void DrawTransport(Graphics g)
         {
             Pen pen = new Pen(Color.Black);
             //передняя фара
@@ -87,6 +74,7 @@ namespace Electrovoz
             //задняя фара
             Brush brRed = new SolidBrush(Color.Red);
             g.FillEllipse(brRed, _startPosX - 5, _startPosY + 43, 10, 10);
+
 
             //границы электровоза
             g.DrawRectangle(pen, _startPosX, _startPosY + 18, 90, 30); // верх. часть
@@ -129,41 +117,6 @@ namespace Electrovoz
 
             //выделяем рамкой дверь
             g.DrawRectangle(pen, _startPosX + 45, _startPosY + 28, 15, 20);
-
-            // рога
-            if (FrontRoga)
-            {
-                Pen roga = new Pen(DopColor, 2);
-                // рог №1
-                g.DrawLine(roga, _startPosX + 5, _startPosY + 17, _startPosX + 10, _startPosY + 7);
-                g.DrawLine(roga, _startPosX + 15, _startPosY + 17, _startPosX + 10, _startPosY + 7);
-                g.DrawLine(roga, _startPosX + 5, _startPosY + 4, _startPosX + 10, _startPosY + 7);
-                g.DrawLine(roga, _startPosX + 15, _startPosY + 4, _startPosX + 10, _startPosY + 7);
-                g.DrawLine(roga, _startPosX + 5, _startPosY + 4, _startPosX + 10, _startPosY);
-                g.DrawLine(roga, _startPosX + 15, _startPosY + 4, _startPosX + 10, _startPosY);
-                // рог №2
-                g.DrawLine(roga, _startPosX + 32, _startPosY + 17, _startPosX + 37, _startPosY + 7);
-                g.DrawLine(roga, _startPosX + 42, _startPosY + 17, _startPosX + 37, _startPosY + 7);
-                g.DrawLine(roga, _startPosX + 32, _startPosY + 4, _startPosX + 37, _startPosY + 7);
-                g.DrawLine(roga, _startPosX + 42, _startPosY + 4, _startPosX + 37, _startPosY + 7);
-                g.DrawLine(roga, _startPosX + 32, _startPosY + 4, _startPosX + 37, _startPosY);
-                g.DrawLine(roga, _startPosX + 42, _startPosY + 4, _startPosX + 37, _startPosY);
-                // рог №3
-                g.DrawLine(roga, _startPosX + 55, _startPosY + 17, _startPosX + 60, _startPosY + 7);
-                g.DrawLine(roga, _startPosX + 65, _startPosY + 17, _startPosX + 60, _startPosY + 7);
-                g.DrawLine(roga, _startPosX + 55, _startPosY + 4, _startPosX + 60, _startPosY + 7);
-                g.DrawLine(roga, _startPosX + 65, _startPosY + 4, _startPosX + 60, _startPosY + 7);
-                g.DrawLine(roga, _startPosX + 55, _startPosY + 4, _startPosX + 60, _startPosY);
-                g.DrawLine(roga, _startPosX + 65, _startPosY + 4, _startPosX + 60, _startPosY);
-            }
-            // молния
-            if (FrontLightning)
-            {
-                Pen molniya = new Pen(DopColor, 2);
-                g.DrawLine(molniya, _startPosX + 15, _startPosY + 30, _startPosX + 10, _startPosY + 43);
-                g.DrawLine(molniya, _startPosX + 10, _startPosY + 43, _startPosX + 15, _startPosY + 40);
-                g.DrawLine(molniya, _startPosX + 15, _startPosY + 40, _startPosX + 10, _startPosY + 53);
-            }
         }
     }
 }
