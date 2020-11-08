@@ -17,6 +17,12 @@ namespace Electrovoz
         {
             InitializeComponent();
         }
+        // Передача поезда на форму
+        public void SetTrain(ITransport electrvoz)
+        {
+            this.electrvoz = electrvoz;
+            Draw();
+        }
         // Метод отрисовки электровоза
         private void Draw()
         {
@@ -33,35 +39,18 @@ namespace Electrovoz
             switch (name)
             {
                 case "buttonUp":
-                    electrvoz.MoveTransport(Direction.Up);
+                    electrvoz?.MoveTransport(Direction.Up);
                     break;
                 case "buttonDown":
-                    electrvoz.MoveTransport(Direction.Down);
+                    electrvoz?.MoveTransport(Direction.Down);
                     break;
                 case "buttonLeft":
-                    electrvoz.MoveTransport(Direction.Left);
+                    electrvoz?.MoveTransport(Direction.Left);
                     break;
                 case "buttonRight":
-                    electrvoz.MoveTransport(Direction.Right);
+                    electrvoz?.MoveTransport(Direction.Right);
                     break;
             }
-            Draw();
-        }
-        // Обработка нажатия кнопки "Создать локомотив"
-        private void buttonCreateLocomotive_Click(object sender, EventArgs e)
-        {
-            Random rnd = new Random();
-            electrvoz = new Locomotive(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Green);
-            electrvoz.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxElektrovoz.Width,
-           pictureBoxElektrovoz.Height);
-            Draw();
-        }
-        // Обработка нажатия кнопки "Создать электровоз"
-        private void buttonCreateElectrovoz_Click(object sender, EventArgs e)
-        {
-            Random rnd = new Random();
-            electrvoz = new Electrovoz(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Green, Color.Yellow, true, true);
-            electrvoz.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxElektrovoz.Width, pictureBoxElektrovoz.Height);
             Draw();
         }
     }

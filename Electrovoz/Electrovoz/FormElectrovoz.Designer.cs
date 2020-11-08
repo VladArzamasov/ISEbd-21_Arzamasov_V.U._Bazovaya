@@ -33,8 +33,6 @@
             this.buttonLeft = new System.Windows.Forms.Button();
             this.buttonUp = new System.Windows.Forms.Button();
             this.pictureBoxElektrovoz = new System.Windows.Forms.PictureBox();
-            this.buttonCreateLocomotive = new System.Windows.Forms.Button();
-            this.buttonCreateElectrovoz = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxElektrovoz)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,33 +93,11 @@
             this.pictureBoxElektrovoz.TabIndex = 0;
             this.pictureBoxElektrovoz.TabStop = false;
             // 
-            // buttonCreateLocomotive
-            // 
-            this.buttonCreateLocomotive.Location = new System.Drawing.Point(12, 12);
-            this.buttonCreateLocomotive.Name = "buttonCreateLocomotive";
-            this.buttonCreateLocomotive.Size = new System.Drawing.Size(192, 32);
-            this.buttonCreateLocomotive.TabIndex = 6;
-            this.buttonCreateLocomotive.Text = "Создать локомотив";
-            this.buttonCreateLocomotive.UseVisualStyleBackColor = true;
-            this.buttonCreateLocomotive.Click += new System.EventHandler(this.buttonCreateLocomotive_Click);
-            // 
-            // buttonCreateElectrovoz
-            // 
-            this.buttonCreateElectrovoz.Location = new System.Drawing.Point(210, 12);
-            this.buttonCreateElectrovoz.Name = "buttonCreateElectrovoz";
-            this.buttonCreateElectrovoz.Size = new System.Drawing.Size(192, 32);
-            this.buttonCreateElectrovoz.TabIndex = 7;
-            this.buttonCreateElectrovoz.Text = "Создать электровоз";
-            this.buttonCreateElectrovoz.UseVisualStyleBackColor = true;
-            this.buttonCreateElectrovoz.Click += new System.EventHandler(this.buttonCreateElectrovoz_Click);
-            // 
             // FormElectrovoz
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(878, 444);
-            this.Controls.Add(this.buttonCreateElectrovoz);
-            this.Controls.Add(this.buttonCreateLocomotive);
             this.Controls.Add(this.buttonDown);
             this.Controls.Add(this.buttonRight);
             this.Controls.Add(this.buttonLeft);
@@ -142,8 +118,6 @@
         private System.Windows.Forms.Button buttonLeft;
         private System.Windows.Forms.Button buttonRight;
         private System.Windows.Forms.Button buttonDown;
-        private System.Windows.Forms.Button buttonCreateLocomotive;
-        private System.Windows.Forms.Button buttonCreateElectrovoz;
     }
 }
 
