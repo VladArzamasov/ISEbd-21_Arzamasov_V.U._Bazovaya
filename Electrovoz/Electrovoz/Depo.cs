@@ -10,59 +10,60 @@ namespace Electrovoz
     public class Depo<T> where T : class, ITransport
     {
         // Массив объектов, которые храним
-        private readonly T[] _places;
+        private readonly List<T> _places;
+        // Максимальное кол-во мест в депо
+        private readonly int _maxCount;
         // Ширина окна отрисовки
         private readonly int pictureWidth;
         // Высота окна отрисовки
         private readonly int pictureHeight;
-        // Размер депо (ширина)
+        // Размер места (ширина)
         private readonly int _placeSizeWidth = 200;
-        // Размер депо (высота)
+        // Размер места (высота)
         private readonly int _placeSizeHeight = 80;
+
         // Конструктор
         public Depo(int picWidth, int picHeight)
         {
             int width = picWidth / _placeSizeWidth;
             int height = picHeight / _placeSizeHeight;
-            _places = new T[width * height];
+            _maxCount = width * height;
             pictureWidth = picWidth;
             pictureHeight = picHeight;
+            _places = new List<T>();
         }
         // Перегрузка оператора сложения
         // Логика действия: в депо добавляется поезд
         public static bool operator +(Depo<T> p, T train)
         {
-            for (int i = 0; i < p._places.Length; i++)
+            if (p._places.Count >= p._maxCount)
             {
-                if (p._places[i] == null)
-                {
-                    p._places[i] = train;
-                    p._places[i].SetPosition(i / 4 * p._placeSizeWidth + 7,
-                        i % 4 * p._placeSizeHeight + 4, p.pictureWidth, p.pictureHeight);
-                    return true;
-                }
+                return false;
             }
-            return false;
+            p._places.Add(train);
+            return true;
         }
         // Перегрузка оператора вычитания
         // Логика действия: из депо забираем поезд
-        public static T operator - (Depo<T> p, int index)
+        public static T operator -(Depo<T> p, int index)
         {
-            if (index < 0 || index >= p._places.Length)
+            if (index < -1 || index >= p._places.Count)
             {
                 return null;
             }
-            T train = p._places[index];
-            p._places[index] = null;
-            return train;
+            T car = p._places[index];
+            p._places.RemoveAt(index);
+            return car;
         }
         // Метод отрисовки депо
         public void Draw(Graphics g)
         {
             DrawMarking(g);
-            for (int i = 0; i < _places.Length; i++)
+            for (int i = 0; i < _places.Count; i++)
             {
-                _places[i]?.DrawTransport(g);
+                _places[i].SetPosition(i / 4 * _placeSizeWidth + 7, i % 4 *
+                    _placeSizeHeight + 4, pictureWidth, pictureHeight);
+                _places[i].DrawTransport(g);
             }
         }
         // Метод отрисовки разметки парковочных мест
