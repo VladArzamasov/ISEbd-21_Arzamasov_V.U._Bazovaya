@@ -17,9 +17,9 @@ namespace Electrovoz
         private readonly int pictureWidth;
         // Высота окна отрисовки
         private readonly int pictureHeight;
-        // Размер места (ширина)
+        // Размер депо (ширина)
         private readonly int _placeSizeWidth = 200;
-        // Размер места (высота)
+        // Размер депо (высота)
         private readonly int _placeSizeHeight = 80;
 
         // Конструктор
@@ -51,9 +51,9 @@ namespace Electrovoz
             {
                 return null;
             }
-            T car = p._places[index];
+            T train = p._places[index];
             p._places.RemoveAt(index);
-            return car;
+            return train;
         }
         // Метод отрисовки депо
         public void Draw(Graphics g)
