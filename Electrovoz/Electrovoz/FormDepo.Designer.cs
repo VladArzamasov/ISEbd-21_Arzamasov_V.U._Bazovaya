@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonParkingLocomotive = new System.Windows.Forms.Button();
-            this.buttonParkingElectrovoz = new System.Windows.Forms.Button();
             this.groupBoxZabor = new System.Windows.Forms.GroupBox();
             this.buttonZobr = new System.Windows.Forms.Button();
             this.maskedTextBoxPlace = new System.Windows.Forms.MaskedTextBox();
@@ -40,29 +38,10 @@
             this.buttonDobavlDepo = new System.Windows.Forms.Button();
             this.textBoxNameDepo = new System.Windows.Forms.TextBox();
             this.labelDepo = new System.Windows.Forms.Label();
+            this.buttonAddTrain = new System.Windows.Forms.Button();
             this.groupBoxZabor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDepo)).BeginInit();
             this.SuspendLayout();
-            // 
-            // buttonParkingLocomotive
-            // 
-            this.buttonParkingLocomotive.Location = new System.Drawing.Point(679, 255);
-            this.buttonParkingLocomotive.Name = "buttonParkingLocomotive";
-            this.buttonParkingLocomotive.Size = new System.Drawing.Size(136, 55);
-            this.buttonParkingLocomotive.TabIndex = 1;
-            this.buttonParkingLocomotive.Text = "Припарковать локомотив";
-            this.buttonParkingLocomotive.UseVisualStyleBackColor = true;
-            this.buttonParkingLocomotive.Click += new System.EventHandler(this.buttonParkingLocomotive_Click);
-            // 
-            // buttonParkingElectrovoz
-            // 
-            this.buttonParkingElectrovoz.Location = new System.Drawing.Point(679, 316);
-            this.buttonParkingElectrovoz.Name = "buttonParkingElectrovoz";
-            this.buttonParkingElectrovoz.Size = new System.Drawing.Size(136, 58);
-            this.buttonParkingElectrovoz.TabIndex = 2;
-            this.buttonParkingElectrovoz.Text = "Припарковать электровоз";
-            this.buttonParkingElectrovoz.UseVisualStyleBackColor = true;
-            this.buttonParkingElectrovoz.Click += new System.EventHandler(this.buttonParkingElectrovoz_Click);
             // 
             // groupBoxZabor
             // 
@@ -157,19 +136,28 @@
             this.labelDepo.TabIndex = 8;
             this.labelDepo.Text = "Депо:";
             // 
+            // buttonAddTrain
+            // 
+            this.buttonAddTrain.Location = new System.Drawing.Point(678, 278);
+            this.buttonAddTrain.Name = "buttonAddTrain";
+            this.buttonAddTrain.Size = new System.Drawing.Size(144, 56);
+            this.buttonAddTrain.TabIndex = 9;
+            this.buttonAddTrain.Text = "Добавить поезд";
+            this.buttonAddTrain.UseVisualStyleBackColor = true;
+            this.buttonAddTrain.Click += new System.EventHandler(this.buttonAddTrain_Click);
+            // 
             // FormDepo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(830, 523);
+            this.Controls.Add(this.buttonAddTrain);
             this.Controls.Add(this.labelDepo);
             this.Controls.Add(this.textBoxNameDepo);
             this.Controls.Add(this.buttonDobavlDepo);
             this.Controls.Add(this.buttonUdalDepo);
             this.Controls.Add(this.listBoxDepo);
             this.Controls.Add(this.groupBoxZabor);
-            this.Controls.Add(this.buttonParkingElectrovoz);
-            this.Controls.Add(this.buttonParkingLocomotive);
             this.Controls.Add(this.pictureBoxDepo);
             this.Name = "FormDepo";
             this.Text = "Депо";
@@ -184,8 +172,6 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBoxDepo;
-        private System.Windows.Forms.Button buttonParkingLocomotive;
-        private System.Windows.Forms.Button buttonParkingElectrovoz;
         private System.Windows.Forms.GroupBox groupBoxZabor;
         private System.Windows.Forms.Button buttonZobr;
         private System.Windows.Forms.MaskedTextBox maskedTextBoxPlace;
@@ -195,5 +181,6 @@
         private System.Windows.Forms.Button buttonDobavlDepo;
         private System.Windows.Forms.TextBox textBoxNameDepo;
         private System.Windows.Forms.Label labelDepo;
+        private System.Windows.Forms.Button buttonAddTrain;
     }
 }

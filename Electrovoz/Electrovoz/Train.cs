@@ -23,6 +23,10 @@ namespace Electrovoz
         public float Weight { protected set; get; }
         // Основной цвет
         public Color MainColor { protected set; get; }
+        public void SetMainColor(Color color)
+        {
+            MainColor = color;
+        }
         public void SetPosition(int x, int y, int width, int height)
         {
             _pictureWidth = width;

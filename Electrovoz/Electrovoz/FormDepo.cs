@@ -51,44 +51,6 @@ namespace Electrovoz
                 pictureBoxDepo.Image = bmp;
             }
         }
-        // Обработка нажатия кнопки "Припарковать локомотив"
-        private void buttonParkingLocomotive_Click(object sender, EventArgs e)
-        {
-            ColorDialog dialog = new ColorDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                var locomotiv = new Locomotive(100, 1000, dialog.Color);
-                if (depoCollection[listBoxDepo.SelectedItem.ToString()] + locomotiv)
-                {
-                    Draw();
-                }
-                else
-                {
-                    MessageBox.Show("Депо переполнено");
-                }
-            }
-        }
-        // Обработка нажатия кнопки "Припарковать електровоз"
-        private void buttonParkingElectrovoz_Click(object sender, EventArgs e)
-        {
-            ColorDialog dialog = new ColorDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                ColorDialog dialogDop = new ColorDialog();
-                if (dialogDop.ShowDialog() == DialogResult.OK)
-                {
-                    var train = new Electrovoz(100, 1000, dialog.Color, dialogDop.Color, true, true);
-                    if (depoCollection[listBoxDepo.SelectedItem.ToString()] + train)
-                    {
-                        Draw();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Депо переполнено");
-                    }
-                }
-            }
-        }
         // Обработка нажатия кнопки "Забрать"
         private void buttonZobr_Click(object sender, EventArgs e)
         {
@@ -132,6 +94,27 @@ namespace Electrovoz
         private void listBoxParkings_SelectedIndexChanged(object sender, EventArgs e)
         {
             Draw();
+        }
+
+        private void buttonAddTrain_Click(object sender, EventArgs e)
+        {
+            var formElectrovozConfig = new FormElectrovozConfig();
+            formElectrovozConfig.AddEvent(AddTrain);
+            formElectrovozConfig.Show();
+        }
+        private void AddTrain(Train train)
+        {
+            if (train != null && listBoxDepo.SelectedIndex > -1)
+            {
+                if ((depoCollection[listBoxDepo.SelectedItem.ToString()]) + train)
+                {
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Поезд не удалось поставить");
+                }
+            }
         }
     }
 }

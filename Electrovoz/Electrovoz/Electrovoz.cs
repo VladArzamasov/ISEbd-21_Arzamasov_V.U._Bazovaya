@@ -19,7 +19,7 @@ namespace Electrovoz
             FrontRoga = frontRoga;
             FrontLightning = frontLightning;
         }
-        // Отрисовка автомобиля
+        // Отрисовка електровоза
         public override void DrawTransport(Graphics g)
         {
             //отрисуем локомотив
@@ -58,6 +58,11 @@ namespace Electrovoz
                 g.DrawLine(molniya, _startPosX + 10, _startPosY + 43, _startPosX + 15, _startPosY + 40);
                 g.DrawLine(molniya, _startPosX + 15, _startPosY + 40, _startPosX + 10, _startPosY + 53);
             }
+        }
+        // Смена дополнительного цвета
+        public void SetDopColor(Color color)
+        {
+            DopColor = color;
         }
     }
 }

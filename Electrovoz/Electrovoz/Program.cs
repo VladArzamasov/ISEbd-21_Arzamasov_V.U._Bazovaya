@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 namespace Electrovoz
 {
+    public delegate void TrainDelegate(Train train);
     static class Program
     {
         /// <summary>
