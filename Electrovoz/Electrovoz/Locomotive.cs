@@ -13,12 +13,25 @@ namespace Electrovoz
         protected readonly int carWidth = 95;
         // Высота отрисовки локомотива
         protected readonly int carHeight = 68;
+        // Разделитель для записи информации по объекту в файл
+        protected readonly char separator = ';';
         // Конструктор
         public Locomotive(int maxSpeed, float weight, Color mainColor)
         {
             MaxSpeed = maxSpeed;
             Weight = weight;
             MainColor = mainColor;
+        }
+        // Конструктор для загрузки с файла
+        public Locomotive(string info)
+        {
+            string[] strs = info.Split(separator);
+            if (strs.Length == 3)
+            {
+                MaxSpeed = Convert.ToInt32(strs[0]);
+                Weight = Convert.ToInt32(strs[1]);
+                MainColor = Color.FromName(strs[2]);
+            }
         }
         protected Locomotive(int maxSpeed, float weight, Color mainColor, int carWidth, int carHeight)
         {
@@ -117,6 +130,10 @@ namespace Electrovoz
 
             //выделяем рамкой дверь
             g.DrawRectangle(pen, _startPosX + 45, _startPosY + 28, 15, 20);
+        }
+        public override string ToString()
+        {
+            return $"{MaxSpeed}{separator}{Weight}{separator}{MainColor.Name}";
         }
     }
 }
