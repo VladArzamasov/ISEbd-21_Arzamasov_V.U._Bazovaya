@@ -38,7 +38,7 @@ namespace Electrovoz
         {
             if (p._places.Count >= p._maxCount)
             {
-                return false;
+                throw new DepoOverflowException();
             }
             p._places.Add(train);
             return true;
@@ -49,7 +49,7 @@ namespace Electrovoz
         {
             if (index < -1 || index >= p._places.Count)
             {
-                return null;
+                throw new DepoNotFoundException(index);
             }
             T train = p._places[index];
             p._places.RemoveAt(index);

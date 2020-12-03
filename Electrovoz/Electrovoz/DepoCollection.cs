@@ -130,13 +130,14 @@ namespace Electrovoz
                         var result = depoStages[key] + _train;
                         if (!result)
                         {
-                            return false;
+                            throw new Exception("Не удалось загрузить поезд в депо");
                         }
                         line = sr.ReadLine();
                     }
                     return true;
                 }
-                return false;
+                //если нет такой записи, то это не те данные
+                throw new Exception("Неверный формат файла");
             }
         }
     }

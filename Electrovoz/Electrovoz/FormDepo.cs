@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,10 +15,13 @@ namespace Electrovoz
     {
         // Объект от класса-депо
         private readonly DepoCollection depoCollection;
+        // Логгер
+        private readonly Logger logger;
         public FormDepo()
         {
             InitializeComponent();
             depoCollection = new DepoCollection(pictureBoxDepo.Width, pictureBoxDepo.Height);
+            logger = LogManager.GetCurrentClassLogger();
             Draw();
         }
         // Заполнение listBoxLevels
@@ -56,25 +60,39 @@ namespace Electrovoz
         {
             if (listBoxDepo.SelectedIndex > -1 && maskedTextBoxPlace.Text != "")
             {
-                var train = depoCollection[listBoxDepo.SelectedItem.ToString()] - Convert.ToInt32(maskedTextBoxPlace.Text);
-                if (train != null)
+                try
                 {
-                    FormElectrovoz form = new FormElectrovoz();
-                    form.SetTrain(train);
-                    form.ShowDialog();
+                    var train = depoCollection[listBoxDepo.SelectedItem.ToString()] - Convert.ToInt32(maskedTextBoxPlace.Text);
+                    if (train != null)
+                    {
+                        FormElectrovoz form = new FormElectrovoz();
+                        form.SetTrain(train);
+                        form.ShowDialog();
+
+                        logger.Info($"Изъят поезд {train} с места { maskedTextBoxPlace.Text}");
+                        Draw();
+                    }
                 }
-                Draw();
+                catch (DepoNotFoundException ex)
+                {
+                    MessageBox.Show(ex.Message, "Не найдено", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
         // Обработка нажатия кнопки "Добавить депо"
         private void buttonDobavlDepo_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(textBoxNameDepo.Text))
+            if (string.IsNullOrEmpty(textBoxNameDepo.Text))
             {
                 MessageBox.Show("Введите название депо", "Ошибка",
                MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            logger.Info($"Добавили депо {textBoxNameDepo.Text}");
             depoCollection.AddDepo(textBoxNameDepo.Text);
             ReloadLevels();
         }
@@ -85,6 +103,7 @@ namespace Electrovoz
             {
                 if (MessageBox.Show($"Удалить депо { listBoxDepo.SelectedItem.ToString()}?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
+                    logger.Info($"Удалили депо { listBoxDepo.SelectedItem.ToString()}");
                     depoCollection.DelDepo(listBoxDepo.Text);
                     ReloadLevels();
                 }
@@ -93,6 +112,7 @@ namespace Electrovoz
         // Метод обработки выбора элемента на listBox
         private void listBoxParkings_SelectedIndexChanged(object sender, EventArgs e)
         {
+            logger.Info($"Перешли в депо { listBoxDepo.SelectedItem.ToString()}");
             Draw();
         }
 
@@ -106,13 +126,26 @@ namespace Electrovoz
         {
             if (train != null && listBoxDepo.SelectedIndex > -1)
             {
-                if ((depoCollection[listBoxDepo.SelectedItem.ToString()]) + train)
+                try
                 {
+                    if ((depoCollection[listBoxDepo.SelectedItem.ToString()]) + train)
+                    {
+                        Draw();
+                        logger.Info($"Добавлен поезд {train}");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Поезд не удалось поставить");
+                    }
                     Draw();
                 }
-                else
+                catch (DepoOverflowException ex)
                 {
-                    MessageBox.Show("Поезд не удалось поставить");
+                    MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -121,15 +154,15 @@ namespace Electrovoz
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (depoCollection.SaveData(saveFileDialog.FileName))
+                try
                 {
-                    MessageBox.Show("Сохранение прошло успешно", "Результат",
-                   MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    depoCollection.SaveData(saveFileDialog.FileName);
+                    MessageBox.Show("Сохранение прошло успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    logger.Info("Сохранено в файл " + saveFileDialog.FileName);
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Не сохранилось", "Результат",
-                   MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -138,17 +171,23 @@ namespace Electrovoz
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (depoCollection.LoadData(openFileDialog.FileName))
+                try
                 {
+                    depoCollection.LoadData(openFileDialog.FileName);
                     MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
                    MessageBoxIcon.Information);
+                    logger.Info("Загружено из файла " + openFileDialog.FileName);
                     ReloadLevels();
                     Draw();
                 }
-                else
+                catch (DepoOverflowException ex)
                 {
-                    MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Занятое место", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении",
+                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
