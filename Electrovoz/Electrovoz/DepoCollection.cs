@@ -68,7 +68,7 @@ namespace Electrovoz
                 foreach (var level in depoStages)
                 {
                     //начинаем парковку
-                    sw.Write($"Depo{separator}{level.Key}{Environment.NewLine}");
+                    sw.WriteLine($"Depo{separator}{level.Key}");
                     Train train = null;
                     for (int i = 0; (train = level.Value.GetNext(i)) != null; i++)
                     {
@@ -94,6 +94,9 @@ namespace Electrovoz
         // Загрузка информации по поездам в депо из файла
         public bool LoadData(string filename)
         {
+            if (!File.Exists(filename)) {
+                return false;
+            }
             using (StreamReader sr = new StreamReader(filename))
             {
                 Train _train = null;
