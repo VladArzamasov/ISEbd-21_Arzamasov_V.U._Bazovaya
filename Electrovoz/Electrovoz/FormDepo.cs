@@ -136,16 +136,19 @@ namespace Electrovoz
                     else
                     {
                         MessageBox.Show("Поезд не удалось поставить");
+                        logger.Warn("Поезд не удалось поставить");
                     }
                     Draw();
                 }
                 catch (DepoOverflowException ex)
                 {
                     MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn("Поезд не удалось поставить");
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Неизвестная ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn("Поезд не удалось поставить");
                 }
             }
         }
@@ -180,7 +183,7 @@ namespace Electrovoz
                     ReloadLevels();
                     Draw();
                 }
-                catch (DepoOverflowException ex)
+                catch (DepogOccupiedPlaceException ex)
                 {
                     MessageBox.Show(ex.Message, "Занятое место", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
