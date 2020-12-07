@@ -92,7 +92,7 @@ namespace Electrovoz
             }
             return true;
         }
-        // Загрузка информации по поездам в депо из файла
+        // Загрузка информации
         public bool LoadData(string filename)
         {
             if (!File.Exists(filename))
