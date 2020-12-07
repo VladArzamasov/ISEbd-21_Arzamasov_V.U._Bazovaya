@@ -75,11 +75,13 @@ namespace Electrovoz
                 }
                 catch (DepoNotFoundException ex)
                 {
+                    logger.Warn("Вызвана ошибка DepoNotFoundException");
                     MessageBox.Show(ex.Message, "Не найдено", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Неизвестная ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn("Вызвана неизвестная ошибка при удалении поезда");
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -165,6 +167,7 @@ namespace Electrovoz
                 }
                 catch (Exception ex)
                 {
+                    logger.Warn("Вызвана неизвестная ошибка при сохранении");
                     MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -185,10 +188,12 @@ namespace Electrovoz
                 }
                 catch (DepogOccupiedPlaceException ex)
                 {
+                    logger.Warn("Вызвана ошибка DepoOccupiedPlaceException");
                     MessageBox.Show(ex.Message, "Занятое место", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {
+                    logger.Warn("Вызвана неизвестная ошибка при загрузке");
                     MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении",
                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using NLog;
 
 
 namespace Electrovoz
@@ -94,6 +95,10 @@ namespace Electrovoz
         // Загрузка информации по поездам в депо из файла
         public bool LoadData(string filename)
         {
+            if (!File.Exists(filename))
+            {
+                throw new FileNotFoundException();
+            }
             using (StreamReader sr = new StreamReader(filename))
             {
                 Train _train = null;
@@ -130,14 +135,14 @@ namespace Electrovoz
                         var result = depoStages[key] + _train;
                         if (!result)
                         {
-                            throw new Exception("Не удалось загрузить поезд в депо");
+                            throw new DepogOccupiedPlaceException();
                         }
                         line = sr.ReadLine();
                     }
                     return true;
                 }
                 //если нет такой записи, то это не те данные
-                throw new Exception("Неверный формат файла");
+                throw new FormatException("Неверный формат файла");
             }
         }
     }
