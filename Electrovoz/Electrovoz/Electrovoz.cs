@@ -107,6 +107,18 @@ namespace Electrovoz
             {
                 return false;
             }
+            if (DopColor != other.DopColor)
+            {
+                return false;
+            }
+            if (FrontRoga != other.FrontRoga)
+            {
+                return false;
+            }
+            if (FrontLightning != other.FrontLightning)
+            {
+                return false;
+            }
             return true;
         }
         // Перегрузка метода от object
