@@ -116,11 +116,11 @@ namespace Electrovoz
         {
             _currentIndex = -1;
         }
-        // Метод интерфейса IEnumerable 
         public IEnumerator<T> GetEnumerator()
         {
             return this;
         }
+        // Метод интерфейса IEnumerable 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this;
