@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Electrovoz
 {
-    public class Electrovoz : Locomotive
+    public class Electrovoz : Locomotive, IEquatable<Electrovoz>
     {
         // Дополнительный цвет
         public Color DopColor { private set; get; }
@@ -83,6 +83,47 @@ namespace Electrovoz
         {
             return
            $"{base.ToString()}{separator}{DopColor.Name}{separator}{FrontRoga}{separator}{FrontLightning}";
+        }
+        // Метод интерфейса IEquatable для класса Electrovoz
+        public bool Equals(Electrovoz other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (GetType().Name != other.GetType().Name)
+            {
+                return false;
+            }
+            if (MaxSpeed != other.MaxSpeed)
+            {
+                return false;
+            }
+            if (Weight != other.Weight)
+            {
+                return false;
+            }
+            if (MainColor != other.MainColor)
+            {
+                return false;
+            }
+            return true;
+        }
+        // Перегрузка метода от object
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is Electrovoz elecObj))
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(elecObj);
+            }
         }
     }
 }

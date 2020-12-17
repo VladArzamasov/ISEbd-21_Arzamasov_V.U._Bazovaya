@@ -199,5 +199,15 @@ namespace Electrovoz
                 }
             }
         }
+        // Обработка нажатия кнопки "Сортировка"
+        private void buttonSort_Click(object sender, EventArgs e)
+        {
+            if (listBoxDepo.SelectedIndex > -1)
+            {
+                depoCollection[listBoxDepo.SelectedItem.ToString()].Sort();
+                Draw();
+                logger.Info("Сортировка уровней");
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,8 @@ using System.Drawing;
 
 namespace Electrovoz
 {
-    public class Depo<T> where T : class, ITransport
+    public class Depo<T> : IEnumerator<T>, IEnumerable<T>
+        where T : class, ITransport
     {
         // Массив объектов, которые храним
         private readonly List<T> _places;
@@ -21,7 +23,9 @@ namespace Electrovoz
         private readonly int _placeSizeWidth = 200;
         // Размер депо (высота)
         private readonly int _placeSizeHeight = 80;
-
+        private int _currentIndex;
+        public T Current => _places[_currentIndex];
+        object IEnumerator.Current => _places[_currentIndex];
         // Конструктор
         public Depo(int picWidth, int picHeight)
         {
@@ -31,6 +35,7 @@ namespace Electrovoz
             pictureWidth = picWidth;
             pictureHeight = picHeight;
             _places = new List<T>();
+            _currentIndex = -1;
         }
         // Перегрузка оператора сложения
         // Логика действия: в депо добавляется поезд
@@ -39,6 +44,10 @@ namespace Electrovoz
             if (p._places.Count >= p._maxCount)
             {
                 throw new DepoOverflowException();
+            }
+            if (p._places.Contains(train))
+            {
+                throw new DepoAlreadyHaveException();
             }
             p._places.Add(train);
             return true;
@@ -89,6 +98,32 @@ namespace Electrovoz
                 return null;
             }
             return _places[index];
+        }
+        // Сортировка поездов в депо
+        public void Sort() => _places.Sort((IComparer<T>)new TrainComparer());
+        // Метод интерфейса IEnumerator, вызываемый при удалении объекта
+        public void Dispose()
+        {
+        }
+        // Метод интерфейса IEnumerator для перехода к следующему элементу или началу коллекции
+        public bool MoveNext()
+        {
+            _currentIndex++;
+            return (_currentIndex < _places.Count);
+        }
+        // Метод интерфейса IEnumerator для сброса и возрата к началу коллекции
+        public void Reset()
+        {
+            _currentIndex = -1;
+        }
+        // Метод интерфейса IEnumerable 
+        public IEnumerator<T> GetEnumerator()
+        {
+            return this;
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this;
         }
     }
 }

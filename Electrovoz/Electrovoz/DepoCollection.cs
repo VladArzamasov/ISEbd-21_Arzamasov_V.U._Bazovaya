@@ -70,8 +70,7 @@ namespace Electrovoz
                 {
                     //начинаем парковку
                     sw.WriteLine($"Depo{separator}{level.Key}");
-                    Train train = null;
-                    for (int i = 0; (train = level.Value.GetNext(i)) != null; i++)
+                    foreach(ITransport train in level.Value)
                     {
                         if (train != null)
                         {
